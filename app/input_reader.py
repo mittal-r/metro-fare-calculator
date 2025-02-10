@@ -56,7 +56,10 @@ class InputReader:
         # validate datatypes of entries
         for i in (0, 1):
             # Raise error if the given route doesn't match the default routes
-            getattr(Routes, row[i], None)
+            try:
+                getattr(Routes, row[i])
+            except AttributeError as e:
+                raise Exception(f"Invalid metro line: {row[i]}")
 
     def _get_datetime(self, iso_time: str) -> int:
         # return python datetime for given time string
